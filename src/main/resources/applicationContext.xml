@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <context:property-placeholder location="classpath*:*.properties"
+                                  file-encoding="UTF-8"/>
+    <tx:annotation-driven/>
+    <context:component-scan base-package="com.qunar.hotel.ugc">
+    </context:component-scan>
+
+    <!--review-->
+    <bean id="ReviewDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="jdbcUrl" value="${review.jdbc.url}"/>
+        <property name="driverClass" value="${review.jdbc.driverClassName}"/>
+        <property name="user" value="${review.jdbc.username}"/>
+        <property name="password" value="${review.jdbc.password}"/>
+        <property name="initialPoolSize" value="${review.jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${review.jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${review.jdbc.maxPoolSize}"/>
+        <property name="maxStatements" value="${review.jdbc.maxStatements}"/>
+        <property name="autoCommitOnClose" value="${review.jdbc.autoCommitOnClose}"/>
+        <property name="idleConnectionTestPeriod" value="${review.jdbc.idleConnectionTestPeriod}"/>
+        <property name="maxIdleTime" value="${review.jdbc.maxIdleTime}"/>
+        <property name="testConnectionOnCheckout" value="true"/>
+        <property name="preferredTestQuery" value="select 1"/>
+    </bean>
+
+    <!--ugc-->
+    <bean id="UgcDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="jdbcUrl" value="${ugc.jdbc.url}"/>
+        <property name="driverClass" value="${ugc.jdbc.driverClassName}"/>
+        <property name="user" value="${ugc.jdbc.username}"/>
+        <property name="password" value="${ugc.jdbc.password}"/>
+        <property name="initialPoolSize" value="${ugc.jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${ugc.jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${ugc.jdbc.maxPoolSize}"/>
+        <property name="maxStatements" value="${ugc.jdbc.maxStatements}"/>
+        <property name="autoCommitOnClose" value="${ugc.jdbc.autoCommitOnClose}"/>
+        <property name="idleConnectionTestPeriod" value="${ugc.jdbc.idleConnectionTestPeriod}"/>
+        <property name="maxIdleTime" value="${ugc.jdbc.maxIdleTime}"/>
+        <property name="testConnectionOnCheckout" value="true"/>
+        <property name="preferredTestQuery" value="select 1"/>
+    </bean>
+
+    <!--local-->
+    <bean id="LocalDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="jdbcUrl" value="${local.jdbc.url}"/>
+        <property name="driverClass" value="${local.jdbc.driverClassName}"/>
+        <property name="user" value="${local.jdbc.username}"/>
+        <property name="password" value="${local.jdbc.password}"/>
+        <property name="initialPoolSize" value="${local.jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${local.jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${local.jdbc.maxPoolSize}"/>
+        <property name="maxStatements" value="${local.jdbc.maxStatements}"/>
+        <property name="autoCommitOnClose" value="${local.jdbc.autoCommitOnClose}"/>
+        <property name="idleConnectionTestPeriod" value="${local.jdbc.idleConnectionTestPeriod}"/>
+        <property name="maxIdleTime" value="${local.jdbc.maxIdleTime}"/>
+        <property name="testConnectionOnCheckout" value="true"/>
+        <property name="preferredTestQuery" value="select 1"/>
+    </bean>
+
+    <bean id="CommentsDao" class="com.qunar.hotel.ugc.dao.impl.CommentsDaoImpl">
+        <property name="dataSource" ref="LocalDataSource"></property>
+    </bean>
+    <bean id="UserDao" class="com.qunar.hotel.ugc.dao.impl.UserDaoImpl">
+        <property name="dataSource" ref="LocalDataSource"></property>
+    </bean>
+</beans>
